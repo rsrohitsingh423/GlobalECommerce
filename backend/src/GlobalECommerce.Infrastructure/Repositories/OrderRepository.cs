@@ -1,55 +1,143 @@
 ﻿using Dapper;
 using GlobalECommerce.Application.Orders.Interfaces;
 using GlobalECommerce.Domain.Entities;
-using GlobalECommerce.Infrastructure.Database;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 
+namespace GlobalECommerce.Infrastructure.Repositories;
 
-namespace GlobalECommerce.Infrastructure.Repositories
+public class OrderRepository : IOrderRepository
 {
-    public class OrderRepository : IOrderRepository
+    private readonly string _connectionString;
+
+    public OrderRepository(IConfiguration configuration)
     {
-        private readonly DbConnectionFactory _factory;
-        public OrderRepository(DbConnectionFactory dbConnectionFactory) 
-        {
-            _factory = dbConnectionFactory;
-        }
-        public async Task CreateAsync(Order order)
-        {
-            using var connection = _factory.CreateConnection();
+        _connectionString = configuration.GetConnectionString("DefaultConnection")!;
+    }
 
-            using var transaction = connection.BeginTransaction();
+    public async Task CreateAsync(Order order)
+    {
+        await using var connection = new SqliteConnection(_connectionString);
 
-            await connection.ExecuteAsync(
-                """
-        INSERT INTO Orders
-        (Id,OrderNumber,TotalAmount,Status,CreatedAt)
+        await connection.OpenAsync();
 
-        VALUES
-        (@Id,@OrderNumber,@TotalAmount,@Status,@CreatedAt)
-        """,
-                order,
-                transaction);
+        using var transaction = connection.BeginTransaction();
 
-            foreach (var item in order.Items)
-            {
-                await connection.ExecuteAsync(
-                    """
-            INSERT INTO OrderItems
-            (Id,OrderId,ProductId,Quantity,UnitPrice)
+        await connection.ExecuteAsync(
+            """
+            INSERT INTO Orders
+            (
+                Id,
+                OrderNumber,
+                TotalAmount,
+                Status,
+                CreatedAt
+            )
 
             VALUES
-            (@Id,@OrderId,@ProductId,@Quantity,@UnitPrice)
+            (
+                @Id,
+                @OrderNumber,
+                @TotalAmount,
+                @Status,
+                @CreatedAt
+            )
             """,
-                    item,
-                    transaction);
-            }
+            order,
+            transaction);
 
-            transaction.Commit();
-        }
-
-        public Task<IEnumerable<Order>> GetOrdersAsync()
+        foreach (var item in order.Items)
         {
-            throw new NotImplementedException();
+            await connection.ExecuteAsync(
+                """
+                INSERT INTO OrderItems
+                (
+                    Id,
+                    OrderId,
+                    ProductId,
+                    Quantity,
+                    UnitPrice
+                )
+
+                VALUES
+                (
+                    @Id,
+                    @OrderId,
+                    @ProductId,
+                    @Quantity,
+                    @UnitPrice
+                )
+                """,
+                item,
+                transaction);
         }
+
+        transaction.Commit();
+    }
+
+    public Task<IEnumerable<Order>> GetOrdersAsync()
+    {
+        throw new NotImplementedException();
     }
 }
+
+
+# region old approach
+//using Dapper;
+//using GlobalECommerce.Application.Orders.Interfaces;
+//using GlobalECommerce.Domain.Entities;
+//using GlobalECommerce.Infrastructure.Database;
+
+
+//namespace GlobalECommerce.Infrastructure.Repositories
+//{
+//    public class OrderRepository : IOrderRepository
+//    {
+//        private readonly DbConnectionFactory _factory;
+//        public OrderRepository(DbConnectionFactory dbConnectionFactory) 
+//        {
+//            _factory = dbConnectionFactory;
+//        }
+//        public async Task CreateAsync(Order order)
+//        {
+//            using var connection = _factory.CreateConnection();
+
+//            using var transaction = connection.BeginTransaction();
+
+//            await connection.ExecuteAsync(
+//                """
+//        INSERT INTO Orders
+//        (Id,OrderNumber,TotalAmount,Status,CreatedAt)
+
+//        VALUES
+//        (@Id,@OrderNumber,@TotalAmount,@Status,@CreatedAt)
+//        """,
+//                order,
+//                transaction);
+
+//            foreach (var item in order.Items)
+//            {
+//                await connection.ExecuteAsync(
+//                    """
+//            INSERT INTO OrderItems
+//            (Id,OrderId,ProductId,Quantity,UnitPrice)
+
+//            VALUES
+//            (@Id,@OrderId,@ProductId,@Quantity,@UnitPrice)
+//            """,
+//                    item,
+//                    transaction);
+//            }
+
+//            transaction.Commit();
+//        }
+
+//        public Task<IEnumerable<Order>> GetOrdersAsync()
+//        {
+//            throw new NotImplementedException();
+//        }
+//    }
+//}
+
+#endregion

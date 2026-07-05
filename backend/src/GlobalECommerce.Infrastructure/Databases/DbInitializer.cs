@@ -15,6 +15,17 @@ public class DbInitializer
     {
         using var connection = _factory.CreateConnection();
 
+
+        await connection.ExecuteAsync("""
+
+DROP TABLE IF EXISTS OrderItems;
+
+DROP TABLE IF EXISTS Orders;
+
+DROP TABLE IF EXISTS Products;
+
+""");
+
         await connection.ExecuteAsync("""
         CREATE TABLE IF NOT EXISTS Products
         (

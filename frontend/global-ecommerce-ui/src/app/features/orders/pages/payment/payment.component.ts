@@ -1,35 +1,44 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
 
 import { CartService } from '../../../../core/services/cart.service';
 import { CheckoutService } from '../../../../core/services/checkout.service';
-import { Router } from '@angular/router';
+
 @Component({
-  selector: 'app-cart',
+  selector: 'app-payment',
   standalone: true,
   imports: [
     CommonModule,
     MatButtonModule,
-    MatCardModule,
-    MatIconModule
+    MatCardModule
   ],
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  templateUrl: './payment.component.html',
+  styleUrls: ['./payment.component.css']
 })
-export class CartComponent {
+export class PaymentComponent {
 
-  readonly cartService = inject(CartService);
+  readonly cart = inject(CartService);
+
+  private readonly checkout = inject(CheckoutService);
+
   private readonly router = inject(Router);
+  processing=false;
 
-  private readonly checkoutService = inject(CheckoutService);
+  pay(){
 
-  checkout()
-{
-    this.router.navigate(['/payment']);
+    this.processing=true;
+
+    this.checkout.checkout();
+
 }
+
+  cancel()
+  {
+      this.router.navigate(['/cart']);
+  }
 
 }

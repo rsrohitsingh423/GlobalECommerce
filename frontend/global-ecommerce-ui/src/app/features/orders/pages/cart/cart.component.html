@@ -1,49 +1,102 @@
-<h2>Shopping Cart</h2>
+<div class="container">
 
-@for(item of cartService.cart(); track item.product.id){
+    <h1>Shopping Cart</h1>
 
-<div class="cart-item">
+    @if(cartService.cart().length===0){
 
-    <h3>{{item.product.name}}</h3>
+        <h3>Your cart is empty.</h3>
 
-    <p>
+    }
 
-        ₹ {{item.product.price}}
+    @for(item of cartService.cart(); track item.product.id){
 
-    </p>
+        <mat-card class="cart-card">
 
-    <p>
+            <mat-card-title>
 
-        Qty : {{item.quantity}}
+                {{item.product.name}}
 
-    </p>
+            </mat-card-title>
+
+            <mat-card-content>
+
+                <p>
+
+                    Price :
+                    ₹ {{item.product.price}}
+
+                </p>
+
+                <p>
+
+                    Quantity :
+                    {{item.quantity}}
+
+                </p>
+
+                <p>
+
+                    Total :
+
+                    ₹ {{item.product.price*item.quantity}}
+
+                </p>
+
+            </mat-card-content>
+
+            <mat-card-actions>
+
+                <button
+                    mat-icon-button
+                    color="primary"
+                    (click)="cartService.decrease(item.product.id)">
+
+                    <mat-icon>remove</mat-icon>
+
+                </button>
+
+                <button
+                    mat-icon-button
+                    color="primary"
+                    (click)="cartService.increase(item.product.id)">
+
+                    <mat-icon>add</mat-icon>
+
+                </button>
+
+                <button
+                    mat-button
+                    color="warn"
+                    (click)="cartService.remove(item.product.id)">
+
+                    Remove
+
+                </button>
+
+            </mat-card-actions>
+
+        </mat-card>
+
+    }
+
+    <hr>
+
+    <h2>
+
+        Grand Total
+
+        ₹ {{cartService.totalAmount()}}
+
+    </h2>
 
     <button
-        mat-button
-        (click)="cartService.remove(item.product.id)">
+        mat-raised-button
+        color="primary"
+        [disabled]="cartService.cart().length===0"
+        (click)="checkout()">
 
-        Remove
+        Checkout
 
     </button>
 
 </div>
-
-}
-
-<hr>
-
-<h2>
-
-Total :
-
-₹ {{cartService.total()}}
-
-</h2>
-
-<button
-    mat-raised-button
-    color="primary">
-
-Place Order
-
-</button>

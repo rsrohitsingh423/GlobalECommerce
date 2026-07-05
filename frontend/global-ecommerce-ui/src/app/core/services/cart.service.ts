@@ -7,22 +7,17 @@ import { Product } from '../../features/catalog/models/product';
 })
 export class CartService {
 
-  // Private state
   private readonly _cart = signal<CartItem[]>([]);
 
-  // Readonly signal exposed to UI
   readonly cart = this._cart.asReadonly();
 
-  // Computed signals
   readonly itemCount = computed(() =>
-    this._cart().reduce((total, item) => total + item.quantity, 0)
+    this._cart().reduce((count, item) => count + item.quantity, 0)
   );
 
-  readonly total = computed(() =>
-    this._cart().reduce(
-      (total, item) => total + (item.product.price * item.quantity),
-      0
-    )
+  readonly totalAmount = computed(() =>
+    this._cart().reduce((total, item) =>
+      total + (item.product.price * item.quantity), 0)
   );
 
   add(product: Product): void {
@@ -33,8 +28,7 @@ export class CartService {
 
     if (existing) {
       existing.quantity++;
-    }
-    else {
+    } else {
       cart.push({
         product,
         quantity: 1
@@ -44,7 +38,7 @@ export class CartService {
     this._cart.set(cart);
   }
 
-  remove(productId: string): void {
+  decrease(productId: string): void {
 
     const cart = [...this._cart()];
 
@@ -56,18 +50,40 @@ export class CartService {
     item.quantity--;
 
     if (item.quantity <= 0) {
-
-      this._cart.set(
-        cart.filter(x => x.product.id !== productId)
-      );
-
+      this.remove(productId);
       return;
     }
 
     this._cart.set(cart);
   }
 
+  increase(productId: string): void {
+
+    const cart = [...this._cart()];
+
+    const item = cart.find(x => x.product.id === productId);
+
+    if (!item)
+      return;
+
+    item.quantity++;
+
+    this._cart.set(cart);
+  }
+
+  remove(productId: string): void {
+
+    this._cart.update(items =>
+      items.filter(x => x.product.id !== productId)
+    );
+
+  }
+
   clear(): void {
     this._cart.set([]);
+  }
+
+  getItems(): CartItem[] {
+    return this._cart();
   }
 }

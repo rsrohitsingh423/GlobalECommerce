@@ -2,37 +2,22 @@
 
     <span class="logo">
 
-        🌍 Global E-Commerce
+        🌍 Global Electronics Store
 
     </span>
 
     <span class="spacer"></span>
 
-    <a
-        mat-button
-        routerLink="/catalog">
+    <button mat-button routerLink="/catalog">
 
-        Catalog
+        Products
 
-    </a>
+    </button>
 
-    <a
-        mat-button
-        routerLink="/orders">
-
-        Orders
-
-    </a>
-
-    <a
-        mat-button
-        routerLink="/admin">
-
-        Admin
-
-    </a>
     <button mat-button routerLink="/cart">
-    🛒 {{ cartService.itemCount() }}
+
+        🛒 {{cartService.itemCount()}}
+
     </button>
 
 </mat-toolbar>

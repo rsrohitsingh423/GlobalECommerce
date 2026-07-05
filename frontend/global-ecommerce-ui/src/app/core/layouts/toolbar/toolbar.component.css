@@ -1,13 +1,23 @@
-.logo{
-
-    font-weight:bold;
-
-    font-size:20px;
-
-}
-
 .spacer{
 
     flex:1;
+
+}
+
+.logo{
+
+    font-size:24px;
+
+    font-weight:600;
+
+}
+
+mat-toolbar{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
 
 }
