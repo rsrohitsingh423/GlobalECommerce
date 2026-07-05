@@ -1,0 +1,55 @@
+# ==========================================
+# .NET Core / Visual Studio Build Outputs
+# ==========================================
+[Bb]in/
+[Oo]bj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Publishing & Build outputs
+/publish/
+/App_Data/
+
+# Core tools
+.dotnet/
+project.lock.json
+project.fragment.lock.json
+
+# Secrets & Environment Configurations
+appsettings.Development.json
+appsettings.Local.json
+*.secrets.json
+.env
+
+# ==========================================
+# Angular / Node / Frontend Outputs
+# ==========================================
+# Dependencies
+node_modules/
+/dist/
+/.angular/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# IDEs and text editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

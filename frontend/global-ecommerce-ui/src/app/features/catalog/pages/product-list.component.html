@@ -1,0 +1,49 @@
+<div class="products">
+
+    @for(product of products(); track product.id){
+
+    <mat-card>
+
+        <mat-card-title>
+
+            {{product.name}}
+
+        </mat-card-title>
+
+        <mat-card-content>
+
+            <p>
+
+                ₹ {{product.price}}
+
+            </p>
+
+            <p>
+
+                {{product.category}}
+
+            </p>
+
+            <p>
+
+                Stock : {{product.stock}}
+
+            </p>
+
+        </mat-card-content>
+        <mat-card-actions>
+            <button
+                mat-raised-button
+                color="primary"
+                (click)="addToCart(product)">
+
+                Add To Cart
+
+            </button>
+        </mat-card-actions>
+
+    </mat-card>
+
+    }
+
+</div>

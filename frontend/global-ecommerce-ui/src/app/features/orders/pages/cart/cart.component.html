@@ -1,0 +1,49 @@
+<h2>Shopping Cart</h2>
+
+@for(item of cartService.cart(); track item.product.id){
+
+<div class="cart-item">
+
+    <h3>{{item.product.name}}</h3>
+
+    <p>
+
+        ₹ {{item.product.price}}
+
+    </p>
+
+    <p>
+
+        Qty : {{item.quantity}}
+
+    </p>
+
+    <button
+        mat-button
+        (click)="cartService.remove(item.product.id)">
+
+        Remove
+
+    </button>
+
+</div>
+
+}
+
+<hr>
+
+<h2>
+
+Total :
+
+₹ {{cartService.total()}}
+
+</h2>
+
+<button
+    mat-raised-button
+    color="primary">
+
+Place Order
+
+</button>
