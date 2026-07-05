@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using GlobalECommerce.Application.Orders.Commands.CreateOrder;
 using GlobalECommerce.Application.Orders.DTO;
 using GlobalECommerce.Application.Orders.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +12,11 @@ namespace GlobalECommerce.Api.API.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _service;
-        public OrdersController(IOrderService service)
+        private readonly CreateOrderHandler _handler;
+        public OrdersController(IOrderService service, CreateOrderHandler handler)
         {
             _service = service;
+            _handler = handler;
         }
         [HttpPost]
 
@@ -23,5 +26,12 @@ namespace GlobalECommerce.Api.API.Controllers
 
             return Ok(order);
         }
+        //[HttpPost]
+        //public async Task<IActionResult> Create(CreateOrderRequest request)
+        //{
+        //    var response = await _handler.Handle(request);
+
+        //    return Ok(response);
+        //}
     }
 }

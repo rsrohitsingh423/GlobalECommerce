@@ -4,6 +4,9 @@ using GlobalECommerce.Api.Configuration;
 using GlobalECommerce.Api.Middleware;
 using GlobalECommerce.Application.Catalog.Interfaces;
 using GlobalECommerce.Application.Catalog.Services;
+using GlobalECommerce.Application.Orders.Commands.CreateOrder;
+using GlobalECommerce.Application.Orders.Interfaces;
+using GlobalECommerce.Application.Orders.Services;
 using GlobalECommerce.Infrastructure.Database;
 using GlobalECommerce.Infrastructure.Repositories;
 using Serilog;
@@ -54,6 +57,11 @@ builder.Services.AddSingleton<SeedData>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<CreateOrderHandler>();
 
 
 

@@ -1,37 +1,25 @@
-<div class="products">
+<div class="page-title">
+    <h1>Electronics Store</h1>
+</div>
+
+<div class="catalog-container">
 
     @for(product of products(); track product.id){
 
-    <mat-card>
-
-        <mat-card-title>
-
-            {{product.name}}
-
-        </mat-card-title>
+    <mat-card class="product-card">
 
         <mat-card-content>
 
-            <p>
+            <h2>{{ product.name }}</h2>
 
-                ₹ {{product.price}}
+            <p>{{ product.description }}</p>
 
-            </p>
-
-            <p>
-
-                {{product.category}}
-
-            </p>
-
-            <p>
-
-                Stock : {{product.stock}}
-
-            </p>
+            <h3>₹ {{ product.price | number }}</h3>
 
         </mat-card-content>
+
         <mat-card-actions>
+
             <button
                 mat-raised-button
                 color="primary"
@@ -40,6 +28,7 @@
                 Add To Cart
 
             </button>
+
         </mat-card-actions>
 
     </mat-card>
@@ -47,3 +36,55 @@
     }
 
 </div>
+
+
+<!-- <div class="catalog-container">
+
+    @for(product of products(); track product.id){
+
+        <app-product-card
+            [product]="product">
+        </app-product-card>
+    <mat-card class="product-card">
+
+    <img
+        mat-card-image
+        [src]="product.imageUrl"
+        [alt]="product.name">
+
+    <mat-card-content>
+
+        <h2>{{product.name}}</h2>
+
+        <p class="description">
+
+            {{product.description}}
+
+        </p>
+
+        <h3 class="price">
+
+            ₹ {{product.price | number}}
+
+        </h3>
+
+    </mat-card-content>
+
+    <mat-card-actions>
+
+        <button
+            mat-raised-button
+            color="primary"
+            (click)="addToCart(product)">
+
+            Add To Cart
+
+        </button>
+
+    </mat-card-actions>
+
+</mat-card>
+    }
+
+
+</div> -->
