@@ -1,15 +1,18 @@
 ﻿using GlobalECommerce.Application.Catalog.DTO;
 using GlobalECommerce.Application.Catalog.Interfaces;
+using GlobalECommerce.Application.Orders.Services;
+using Microsoft.Extensions.Logging;
 
 namespace GlobalECommerce.Application.Catalog.Services
 {
     public class ProductService : IProductService
     {
         private readonly IProductRepository _repository;
-
-        public ProductService(IProductRepository repository)
+        private readonly ILogger<ProductService> _logger;
+        public ProductService(IProductRepository repository, ILogger<ProductService> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         public Task<ProductDto> CreateAsync(CreateProductRequest request)
@@ -29,7 +32,10 @@ namespace GlobalECommerce.Application.Catalog.Services
         }
         public async Task<IEnumerable<ProductDto>> GetAllAsync()
         {
+            _logger.LogInformation("Fetching all products.");
             var products = await _repository.GetAllAsync();
+
+            _logger.LogInformation("Retrieved {Count} products.",products.Count());
 
             return products.Select(x => new ProductDto
             {

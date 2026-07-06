@@ -1,5 +1,7 @@
 
 using Asp.Versioning;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using GlobalECommerce.Api.Configuration;
 using GlobalECommerce.Api.Middleware;
 using GlobalECommerce.Application.Catalog.Interfaces;
@@ -7,8 +9,11 @@ using GlobalECommerce.Application.Catalog.Services;
 using GlobalECommerce.Application.Orders.Commands.CreateOrder;
 using GlobalECommerce.Application.Orders.Interfaces;
 using GlobalECommerce.Application.Orders.Services;
+using GlobalECommerce.Application.Payments.Interfaces;
+using GlobalECommerce.Application.Payments.Services;
 using GlobalECommerce.Infrastructure.Database;
 using GlobalECommerce.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,8 +49,31 @@ builder.Services.AddCors(options =>
                 .WithOrigins("http://localhost:4200");
         });
 });
+builder.Services.AddFluentValidationAutoValidation();
+
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.Configure<DatabaseOptions>(
 builder.Configuration.GetSection("Database"));
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var errors = context.ModelState
+            .Where(x => x.Value?.Errors.Count > 0)
+            .Select(x => new
+            {
+                Field = x.Key,
+                Errors = x.Value!.Errors.Select(e => e.ErrorMessage)
+            });
+
+        return new BadRequestObjectResult(new
+        {
+            Message = "Validation Failed",
+            Errors = errors
+        });
+    };
+});
 // Services
 builder.Services.AddSingleton(
 new DbConnectionFactory(
@@ -59,7 +87,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<CreateOrderHandler>();
 
@@ -72,14 +100,12 @@ builder.Host.UseSerilog((ctx, lc) =>
 
 var app = builder.Build();
 
-app.UseMiddleware<ExceptionMiddleware>();
-
 app.UseSwagger();
 
 app.UseSwaggerUI();
-
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
-
+app.UseAuthorization();
 app.MapControllers();
 
 app.UseCors("Angular");

@@ -12,10 +12,14 @@ namespace GlobalECommerce.Api.Controllers;
 public class ProductsController : ControllerBase
 {
     private readonly IProductService _service;
+    private readonly ILogger<ProductsController> _logger;
 
-    public ProductsController(IProductService service)
+    public ProductsController(
+    IProductService service,
+    ILogger<ProductsController> logger)
     {
         _service = service;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -27,6 +31,7 @@ public class ProductsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(Guid id)
     {
+        _logger.LogInformation("GET /products called.");
         var product = await _service.GetByIdAsync(id);
 
         if (product == null)

@@ -3,6 +3,7 @@ using GlobalECommerce.Application.Orders.Interfaces;
 using GlobalECommerce.Domain.Entities;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System.Data;
 
 namespace GlobalECommerce.Infrastructure.Repositories;
@@ -10,18 +11,25 @@ namespace GlobalECommerce.Infrastructure.Repositories;
 public class OrderRepository : IOrderRepository
 {
     private readonly string _connectionString;
+    private readonly ILogger<OrderRepository> _logger;
 
-    public OrderRepository(IConfiguration configuration)
+    public OrderRepository(
+    IConfiguration configuration,
+    ILogger<OrderRepository> logger)
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection")!;
+        _logger = logger;
     }
 
     public async Task CreateAsync(Order order)
     {
+        _logger.LogInformation("Persisting order {OrderNumber}.",order.OrderNumber);
+
         await using var connection = new SqliteConnection(_connectionString);
 
         await connection.OpenAsync();
 
+        _logger.LogDebug("Beginning SQLite transaction.");
         using var transaction = connection.BeginTransaction();
 
         await connection.ExecuteAsync(
@@ -74,6 +82,7 @@ public class OrderRepository : IOrderRepository
         }
 
         transaction.Commit();
+        _logger.LogInformation("Order {OrderNumber} committed successfully.",order.OrderNumber);
     }
 
     public Task<IEnumerable<Order>> GetOrdersAsync()
