@@ -1,38 +1,111 @@
-<h1>Mock Payment</h1>
+<div class="payment-container">
 
-<mat-card>
+    <mat-card class="payment-card">
 
-    <p>
+        <h2>Secure Payment</h2>
 
-        Amount
+        <form [formGroup]="paymentForm">
 
-        <strong>
+            <mat-form-field appearance="outline">
 
-            ₹ {{cart.totalAmount()}}
+                <mat-label>Card Holder Name</mat-label>
 
-        </strong>
+                <input
+                    matInput
+                    formControlName="cardHolderName">
 
-    </p>
+            </mat-form-field>
 
-    <br>
+            <mat-form-field appearance="outline">
 
-    <button
-        mat-raised-button
-        color="primary"
-        [disabled]="processing"
-        (click)="pay()">
+                <mat-label>Card Number</mat-label>
 
-        {{processing ? 'Processing...' : 'Pay Now'}}
+                <input
+                    matInput
+                    maxlength="16"
+                    formControlName="cardNumber">
 
-    </button>
+            </mat-form-field>
 
-    <button
-        mat-button
-        color="warn"
-        (click)="cancel()">
+            <div class="row">
 
-        Cancel
+                <mat-form-field appearance="outline">
 
-    </button>
+                    <mat-label>MM</mat-label>
 
-</mat-card>
+                    <input
+                        matInput
+                        maxlength="2"
+                        formControlName="expiryMonth">
+
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+
+                    <mat-label>YYYY</mat-label>
+
+                    <input
+                        matInput
+                        maxlength="4"
+                        formControlName="expiryYear">
+
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+
+                    <mat-label>CVV</mat-label>
+
+                    <input
+                        matInput
+                        maxlength="4"
+                        type="password"
+                        formControlName="cvv">
+
+                </mat-form-field>
+
+            </div>
+
+        </form>
+
+    </mat-card>
+
+    <mat-card class="summary-card">
+
+        <h2>Order Summary</h2>
+
+        <p>
+
+            Items :
+
+            {{cart.itemCount()}}
+
+        </p>
+
+        <h1>
+
+            ₹ {{cart.totalAmount() | number}}
+
+        </h1>
+
+        <button
+            mat-raised-button
+            color="primary"
+            (click)="pay()"
+            [disabled]="processing">
+
+            @if(processing){
+
+                <mat-spinner diameter="22"></mat-spinner>
+
+            }
+            @else{
+
+                Pay Now
+
+            }
+
+        </button>
+
+    </mat-card>
+
+</div>

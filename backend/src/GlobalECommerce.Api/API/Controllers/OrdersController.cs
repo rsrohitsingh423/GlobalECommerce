@@ -13,25 +13,21 @@ namespace GlobalECommerce.Api.API.Controllers
     {
         private readonly IOrderService _service;
         private readonly CreateOrderHandler _handler;
-        public OrdersController(IOrderService service, CreateOrderHandler handler)
+        private readonly ILogger<OrdersController> _logger;
+        public OrdersController(IOrderService service, CreateOrderHandler handler, ILogger<OrdersController> logger)
         {
             _service = service;
             _handler = handler;
+            _logger = logger;
         }
         [HttpPost]
 
         public async Task<IActionResult> Create(CreateOrderRequest request)
         {
+            _logger.LogInformation("POST /orders received.");
             var order = await _service.CreateAsync(request);
 
             return Ok(order);
         }
-        //[HttpPost]
-        //public async Task<IActionResult> Create(CreateOrderRequest request)
-        //{
-        //    var response = await _handler.Handle(request);
-
-        //    return Ok(response);
-        //}
     }
 }

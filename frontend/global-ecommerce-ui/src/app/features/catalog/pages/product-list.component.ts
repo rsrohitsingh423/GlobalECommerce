@@ -7,6 +7,7 @@ import { CartService } from '../../../core/services/cart.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -20,6 +21,7 @@ export class ProductListComponent implements OnInit {
   private service = inject(ProductService);
   private cartService = inject(CartService);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly router = inject(Router);
 
   products = signal<Product[]>([]);
 
@@ -35,15 +37,17 @@ addToCart(product: Product): void {
 
     this.cartService.add(product);
 
-    this.snackBar.open(
-        `✅ ${product.name} added to cart`,
-        'Close',
-        {
-            duration: 2000,
-            horizontalPosition: 'right',
-            verticalPosition: 'top'
-        });
-
+    const snackBarRef = this.snackBar.open(
+    `✅ ${product.name} added to cart`,
+    'View Cart',
+    {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top'
+    });
+    snackBarRef.onAction().subscribe(() => {
+    this.router.navigate(['/cart']);
+});
 }
 
 }
