@@ -15,69 +15,79 @@ export class CartService {
     this._cart().reduce((count, item) => count + item.quantity, 0)
   );
 
-  readonly totalAmount = computed(() =>
-    this._cart().reduce((total, item) =>
-      total + (item.product.price * item.quantity), 0)
-  );
+//   readonly totalAmount = computed(() =>
+//     this.subtotal() + this.shipping() + this.tax()
+// );
 
   add(product: Product): void {
 
-    const cart = [...this._cart()];
+    this._cart.update(items => {
 
-    const existing = cart.find(x => x.product.id === product.id);
+        const existing = items.find(x => x.productId === product.id);
 
-    if (existing) {
-      existing.quantity++;
-    } else {
-      cart.push({
-        product,
-        quantity: 1
-      });
-    }
+        if (existing) {
 
-    this._cart.set(cart);
-  }
+            existing.quantity++;
 
-  decrease(productId: string): void {
+            return [...items];
 
-    const cart = [...this._cart()];
+        }
 
-    const item = cart.find(x => x.product.id === productId);
+        return [
+            ...items,
+            {
+                productId: product.id,
+                name: product.name,
+                price: product.price,
+                quantity: 1,
+                imageUrl: product.imageUrl
+            }
+        ];
 
-    if (!item)
-      return;
+    });
 
-    item.quantity--;
+}
 
-    if (item.quantity <= 0) {
-      this.remove(productId);
-      return;
-    }
+decrease(productId: string): void {
 
-    this._cart.set(cart);
-  }
+    this._cart.update(items => {
 
-  increase(productId: string): void {
+        const item = items.find(x => x.productId === productId);
 
-    const cart = [...this._cart()];
+        if (!item) return items;
 
-    const item = cart.find(x => x.product.id === productId);
+        item.quantity--;
 
-    if (!item)
-      return;
+        return items.filter(x => x.quantity > 0);
+    });
 
-    item.quantity++;
+}
 
-    this._cart.set(cart);
-  }
+increase(productId: string): void {
 
-  remove(productId: string): void {
+    this._cart.update(items => {
+
+        const item = items.find(x => x.productId === productId);
+
+        if (item) {
+
+            item.quantity++;
+
+        }
+
+        return [...items];
+
+    });
+
+}
+
+remove(productId: string): void {
 
     this._cart.update(items =>
-      items.filter(x => x.product.id !== productId)
+        items.filter(x => x.productId !== productId)
     );
 
-  }
+}
 
   clear(): void {
     this._cart.set([]);
@@ -86,4 +96,23 @@ export class CartService {
   getItems(): CartItem[] {
     return this._cart();
   }
+readonly subtotal = computed(() =>
+    this._cart().reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+    )
+);
+shipping = computed(() =>
+
+    this.subtotal() > 5000 ? 0 : 199
+
+);
+tax = computed(() =>
+
+    this.subtotal() * 0.18
+
+);
+readonly totalAmount = computed(() =>
+    this.subtotal() + this.shipping() + this.tax()
+);
 }

@@ -19,7 +19,7 @@ public class ProductRepository : IProductRepository
         using var connection = _factory.CreateConnection();
 
         return await connection.QueryAsync<Product>(
-            "SELECT Id, Name, Description, Price, Category, Stock, ImageUrl, CreatedAt FROM Products");
+            "SELECT Id, Name, Description, Price, Category, Stock, ImageUrl, CreatedAt,Rating,InStock,DiscountPercentage FROM Products");
     }
 
     public async Task<Product?> GetByIdAsync(Guid id)
@@ -27,7 +27,7 @@ public class ProductRepository : IProductRepository
         using var connection = _factory.CreateConnection();
 
         return await connection.QuerySingleOrDefaultAsync<Product>(
-            "SELECT Id, Name, Description, Price, Category, Stock, ImageUrl, CreatedAt FROM FROM Products WHERE Id=@id",
+            "SELECT Id, Name, Description, Price, Category, Stock, ImageUrl, CreatedAt,Rating,InStock,DiscountPercentage FROM Products WHERE Id=@id",
             new { id });
     }
 

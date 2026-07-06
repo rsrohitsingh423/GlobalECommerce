@@ -27,16 +27,111 @@
 
     transition:.2s;
 
+    position:relative;
+
+    border-radius:14px;
+
+    transition:.25s;
+
+    overflow:hidden;
+
 }
 
 .product-card:hover{
 
-    transform:translateY(-4px);
+    transform:translateY(-6px);
 
-    box-shadow:0 8px 20px rgba(0,0,0,.15);
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
 
 }
 
+.discount-chip{
+
+    /* position:absolute; */
+
+    top:12px;
+
+    left:12px;
+
+    background:#e53935;
+
+    color:white;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+.wishlist{
+
+    position:absolute;
+
+    right:10px;
+
+    top:10px;
+
+}
+
+.rating{
+
+    color:#ff9800;
+
+    font-weight:bold;
+
+    margin-bottom:12px;
+
+}
+
+.stock{
+
+    margin-top:10px;
+
+}
+.in-stock{
+
+    color:#2e7d32;
+
+    font-weight:600;
+
+}
+
+.out-stock{
+
+    color:#d32f2f;
+
+    font-weight:600;
+
+}
+
+.price-section{
+
+    margin-top:20px;
+
+}
+
+.price{
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    color:#1565c0;
+
+}
+
+.old-price{
+
+    margin-left:12px;
+
+    text-decoration:line-through;
+
+    color:#888;
+
+}
 mat-card-actions{
 
     display:flex;
@@ -49,6 +144,6 @@ mat-card-actions{
 
 button{
 
-    width:90%;
+    width:100%;
 
 }

@@ -1,0 +1,121 @@
+.confirmation-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    padding:50px;
+
+}
+
+.confirmation-card{
+
+    width:750px;
+
+    padding:40px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+}
+
+.success-icon{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin-bottom:20px;
+
+}
+
+.success-icon mat-icon{
+
+    color:#43a047;
+
+    font-size:90px;
+
+    height:90px;
+
+    width:90px;
+
+}
+
+.order-number{
+
+    margin:25px 0;
+
+    font-size:20px;
+
+}
+
+.status-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:25px;
+
+    margin:35px 0;
+
+}
+
+.status-item{
+
+    display:flex;
+
+    gap:15px;
+
+    align-items:center;
+
+    padding:15px;
+
+    background:#f5f5f5;
+
+    border-radius:12px;
+
+}
+
+.status-item p{
+
+    margin:5px 0 0;
+
+    color:#666;
+
+}
+
+.summary{
+
+    margin:35px 0;
+
+}
+
+.row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin:18px 0;
+
+    font-size:18px;
+
+}
+
+.total{
+
+    font-size:24px;
+
+    font-weight:bold;
+
+}
+
+button{
+
+    width:100%;
+
+    margin-top:20px;
+
+}

@@ -36,7 +36,10 @@ DROP TABLE IF EXISTS Products;
             Category TEXT,
             Stock INTEGER,
             ImageUrl TEXT,
-            CreatedAt TEXT
+            CreatedAt TEXT,
+            Rating INTEGER,
+            InStock bool,
+            DiscountPercentage INTEGER
         );
         """);
         await connection.ExecuteAsync("CREATE TABLE IF NOT EXISTS Orders (     Id TEXT PRIMARY KEY,     OrderNumber TEXT,     TotalAmount REAL,     Status TEXT,     CreatedAt TEXT );");

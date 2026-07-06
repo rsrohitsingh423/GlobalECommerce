@@ -6,16 +6,20 @@ namespace GlobalECommerce.Application.Catalog.DTO
 {
     public class ProductDto
     {
-        public string Id { get; set; } = string.Empty;
+        public string Id { get; set; } = "";
 
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = "";
+
+        public string Description { get; set; } = "";
 
         public decimal Price { get; set; }
 
-        public string Category { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = "";
 
-        public int Stock { get; set; }
+        public double Rating { get; set; }
 
-        public string ImageUrl { get; set; } = string.Empty;
+        public bool InStock { get; set; }
+
+        public int DiscountPercentage { get; set; }
     }
 }

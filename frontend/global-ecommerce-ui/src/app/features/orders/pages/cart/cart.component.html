@@ -1,102 +1,171 @@
-<div class="container">
+@if(cartService.itemCount()==0){
 
-    <h1>Shopping Cart</h1>
+<div class="empty-cart">
 
-    @if(cartService.cart().length===0){
+    <mat-icon>
 
-        <h3>Your cart is empty.</h3>
+        shopping_cart
 
-    }
+    </mat-icon>
 
-    @for(item of cartService.cart(); track item.product.id){
-
-        <mat-card class="cart-card">
-
-            <mat-card-title>
-
-                {{item.product.name}}
-
-            </mat-card-title>
-
-            <mat-card-content>
-
-                <p>
-
-                    Price :
-                    ₹ {{item.product.price}}
-
-                </p>
-
-                <p>
-
-                    Quantity :
-                    {{item.quantity}}
-
-                </p>
-
-                <p>
-
-                    Total :
-
-                    ₹ {{item.product.price*item.quantity}}
-
-                </p>
-
-            </mat-card-content>
-
-            <mat-card-actions>
-
-                <button
-                    mat-icon-button
-                    color="primary"
-                    (click)="cartService.decrease(item.product.id)">
-
-                    <mat-icon>remove</mat-icon>
-
-                </button>
-
-                <button
-                    mat-icon-button
-                    color="primary"
-                    (click)="cartService.increase(item.product.id)">
-
-                    <mat-icon>add</mat-icon>
-
-                </button>
-
-                <button
-                    mat-button
-                    color="warn"
-                    (click)="cartService.remove(item.product.id)">
-
-                    Remove
-
-                </button>
-
-            </mat-card-actions>
-
-        </mat-card>
-
-    }
-
-    <hr>
-
-    <h2>
-
-        Grand Total
-
-        ₹ {{cartService.totalAmount()}}
-
-    </h2>
+    <h2>Your Cart is Empty</h2>
 
     <button
         mat-raised-button
         color="primary"
-        [disabled]="cartService.cart().length===0"
-        (click)="checkout()">
+        routerLink="/catalog"
+        (click)="productList()">
 
-        Checkout
+        Continue Shopping
 
     </button>
 
 </div>
+
+}
+@else{
+
+<div class="cart-container">
+
+    <div class="cart-items">
+
+        @for(item of cartService.cart(); track item.productId){
+
+        <mat-card class="cart-card">
+
+            <div class="item-details">
+
+                <div>
+
+                    <h2>{{item.name}}</h2>
+
+                    <p>
+
+                        ₹ {{item.price | number}}
+
+                    </p>
+
+                </div>
+
+                <div class="quantity">
+
+                    <button
+                        mat-mini-fab
+                        color="primary"
+                        (click)="cartService.decrease(item.productId)">
+
+                        <mat-icon>
+
+                            remove
+
+                        </mat-icon>
+
+                    </button>
+
+                    <span>
+
+                        {{item.quantity}}
+
+                    </span>
+
+                    <button
+                        mat-mini-fab
+                        color="primary"
+                        (click)="cartService.increase(item.productId)">
+
+                        <mat-icon>
+
+                            add
+
+                        </mat-icon>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <button
+                mat-button
+                color="warn"
+                (click)="cartService.remove(item.productId)">
+
+                Remove
+
+            </button>
+
+        </mat-card>
+
+        }
+
+    </div>
+
+    <mat-card class="summary">
+
+        <h2>Order Summary</h2>
+
+        <div class="row">
+
+            <span>Subtotal</span>
+
+            <span>
+
+                ₹ {{cartService.subtotal() | number}}
+
+            </span>
+
+        </div>
+
+        <div class="row">
+
+            <span>Shipping</span>
+
+            <span>
+
+                {{cartService.shipping()==0 ? 'FREE' : ('₹ '+cartService.shipping())}}
+
+            </span>
+
+        </div>
+
+        <div class="row">
+
+            <span>Tax (18%)</span>
+
+            <span>
+
+                ₹ {{cartService.tax() | number}}
+
+            </span>
+
+        </div>
+
+        <hr>
+
+        <div class="row total">
+
+            <span>Total</span>
+
+            <span>
+
+                ₹ {{cartService.totalAmount() | number}}
+
+            </span>
+
+        </div>
+
+        <button
+            mat-raised-button
+            color="primary"
+            routerLink="/payment"
+                 (click)="checkout()">
+
+            Proceed To Payment
+
+        </button>
+
+    </mat-card>
+
+</div>
+
+}

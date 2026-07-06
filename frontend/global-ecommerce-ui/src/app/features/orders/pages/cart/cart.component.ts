@@ -31,5 +31,7 @@ export class CartComponent {
 {
     this.router.navigate(['/payment']);
 }
-
+productList(){
+      this.router.navigate(['/catalog']);
+}
 }
