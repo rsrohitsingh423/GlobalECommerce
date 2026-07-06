@@ -8,11 +8,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, MatCardModule,  MatButtonModule, MatSnackBarModule],
+  imports: [CommonModule, MatCardModule,  MatButtonModule, MatSnackBarModule,    MatIconModule],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })

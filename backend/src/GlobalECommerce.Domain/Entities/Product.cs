@@ -21,5 +21,10 @@ namespace GlobalECommerce.Domain.Entities
         public string ImageUrl { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; }
+        public double Rating { get; set; }
+
+        public bool InStock { get; set; }
+
+        public int DiscountPercentage { get; set; }
     }
 }

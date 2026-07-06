@@ -23,7 +23,7 @@ export class CheckoutService {
 
       items: cart.map(item => ({
 
-        productId: item.product.id,
+        productId: item.productId,
 
         quantity: item.quantity
 

@@ -1,0 +1,53 @@
+.navbar{
+
+    position: sticky;
+
+    top:0;
+
+    z-index:1000;
+
+}
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-size:22px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+.logo mat-icon{
+
+    font-size:30px;
+
+    height:30px;
+
+    width:30px;
+
+}
+
+.spacer{
+
+    flex:1;
+
+}
+
+a{
+
+    margin-left:15px;
+
+}
+
+.active{
+
+    font-weight:bold;
+
+}

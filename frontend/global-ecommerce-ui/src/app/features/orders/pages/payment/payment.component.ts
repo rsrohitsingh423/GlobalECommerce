@@ -12,6 +12,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CartService } from '../../../../core/services/cart.service';
 import { CheckoutService } from '../../../../core/services/checkout.service';
 import { PaymentApiService } from '../../../../core/api/payment-api.service';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-payment',
@@ -23,7 +25,9 @@ import { PaymentApiService } from '../../../../core/api/payment-api.service';
         MatButtonModule,
         MatFormFieldModule,
         MatInputModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatDividerModule,
+        MatIconModule
     ],
     templateUrl: './payment.component.html',
     styleUrls: ['./payment.component.css']

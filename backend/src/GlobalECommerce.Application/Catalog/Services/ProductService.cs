@@ -40,11 +40,20 @@ namespace GlobalECommerce.Application.Catalog.Services
             return products.Select(x => new ProductDto
             {
                 Id = x.Id,
+
                 Name = x.Name,
+
+                Description = x.Description,
+
                 Price = x.Price,
-                Category = x.Category,
-                Stock = x.Stock,
-                ImageUrl = x.ImageUrl
+
+                ImageUrl = x.ImageUrl,
+
+                Rating = x.Rating,
+
+                InStock = x.InStock,
+
+                DiscountPercentage = x.DiscountPercentage
             });
         }
 
@@ -60,9 +69,11 @@ namespace GlobalECommerce.Application.Catalog.Services
                 Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
-                Category = product.Category,
-                Stock = product.Stock,
-                ImageUrl = product.ImageUrl
+                Description = product.Description,
+                InStock = product.InStock,
+                ImageUrl = product.ImageUrl,
+                Rating = product.Rating,
+                DiscountPercentage = product.DiscountPercentage
             };
         }
 

@@ -8,30 +8,107 @@
 
     <mat-card class="product-card">
 
-        <mat-card-content>
+    <!-- <div class="discount-chip">
 
-            <h2>{{ product.name }}</h2>
+        {{product.discountPercentage}}% OFF
 
-            <p>{{ product.description }}</p>
+    </div> -->
 
-            <h3>₹ {{ product.price | number }}</h3>
+    <button
+        mat-icon-button
+        class="wishlist">
 
-        </mat-card-content>
+        <mat-icon>
 
-        <mat-card-actions>
+            favorite_border
 
-            <button
-                mat-raised-button
-                color="primary"
-                (click)="addToCart(product)">
+        </mat-icon>
 
-                Add To Cart
+    </button>
 
-            </button>
+    <mat-card-content>
 
-        </mat-card-actions>
+        <div class="rating">
 
-    </mat-card>
+            ⭐ {{product.rating}}
+
+        </div>
+
+        <h2>
+
+            {{product.name}}
+
+        </h2>
+
+        <p>
+
+            {{product.description}}
+
+        </p>
+
+        <div class="stock">
+
+            @if(product.inStock){
+
+                <span class="in-stock">
+
+                    In Stock
+
+                </span>
+
+            }
+            @else{
+
+                <span class="out-stock">
+
+                    Out of Stock
+
+                </span>
+
+            }
+
+        </div>
+
+        <div class="price-section">
+
+            <span class="price">
+
+                ₹ {{product.price | number}}
+
+            </span>
+
+            <span class="old-price">
+
+                ₹ {{ (product.price * 1.15) | number }}
+
+            </span>
+            <span class="discount-chip">{{product.discountPercentage}}% OFF</span>
+
+        </div>
+
+    </mat-card-content>
+
+    <mat-card-actions>
+
+        <button
+            mat-raised-button
+            color="primary"
+            (click)="addToCart(product)"
+            [disabled]="!product.inStock">
+
+            <mat-icon>
+
+                shopping_cart
+
+            </mat-icon>
+
+            Add To Cart
+
+        </button>
+
+    </mat-card-actions>
+
+</mat-card>
 
     }
 

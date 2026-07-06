@@ -1,19 +1,93 @@
-<h1>
+<div class="confirmation-container">
 
-🎉 Order Placed Successfully
+    <mat-card class="confirmation-card">
 
-</h1>
+        <div class="success-icon">
 
-<h2>
+            <mat-icon>
 
-Order Number
+                check_circle
 
-{{orderNumber}}
+            </mat-icon>
 
-</h2>
+        </div>
 
-<p>
+        <h1>Order Confirmed!</h1>
 
-Thank you for shopping with us.
+        <h3>Thank you for your purchase.</h3>
 
-</p>
+        <div class="order-number">
+
+            Order #
+
+            <strong>
+
+                {{orderNumber}}
+
+            </strong>
+
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="status-grid">
+
+            <div class="status-item">
+
+                <mat-icon color="primary">
+
+                    payments
+
+                </mat-icon>
+
+                <div>
+
+                    <strong>Payment</strong>
+
+                    <p>Successful</p>
+
+                </div>
+
+            </div>
+
+            <div class="status-item">
+
+                <mat-icon color="primary">
+
+                    local_shipping
+
+                </mat-icon>
+
+                <div>
+
+                    <strong>Shipping</strong>
+
+                    <p>3-5 Business Days</p>
+
+                </div>
+
+            </div>
+
+            <div class="status-item">
+
+                <mat-icon color="primary">
+
+                    inventory_2
+
+                </mat-icon>
+
+                <div>
+
+                    <strong>Status</strong>
+
+                    <p>Preparing Order</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </mat-card>
+
+</div>
