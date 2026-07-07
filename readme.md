@@ -1,4 +1,42 @@
-Architecture Overview
+# Global E-Commerce Order Management Platform (POC)
+
+A proof-of-concept implementation of a Global E-Commerce Order Management Platform built using **ASP.NET Core 10**, **Angular**, and **SQLite**.
+
+This project demonstrates how a production-ready event-driven microservices architecture can be implemented as a locally executable Modular Monolith 
+while preserving clean architecture principles and enabling future migration to distributed services.
+
+## Architecture Philosophy
+
+The original requirement targets:
+
+- Millions of orders/day
+- Event-driven Microservices
+- Cloud-native deployment
+- High availability
+
+For this Proof of Concept, I intentionally implemented a **Modular Monolith**.
+
+This keeps the project:
+
+- Easy to clone
+- Easy to run locally
+- Easy to review
+- Infrastructure independent
+
+while maintaining module boundaries that can later evolve into independent microservices.
+
+Reasons
+    - Demonstrates functionality without requiring cloud infrastructure.
+    - Simplifies local development and evaluation.
+    - Avoids overhead of managing multiple services, databases, message brokers, and deployment pipelines.
+    - Enables reviewers to clone and run the project with minimal setup.
+
+The application is still organized into independent modules (Catalog, Orders, Payment), allowing a straightforward migration to microservices in the future.
+
+---
+
+# Architecture Overview
+
 ## Architecture
 
 Frontend (Angular)
@@ -15,9 +53,6 @@ Infrastructure (Dapper)
         ▼
 SQLite
 
-# Global E-Commerce Order Management Platform (POC)
-
-A proof-of-concept implementation of a Global E-Commerce Order Management Platform built using **ASP.NET Core 10**, **Angular**, and **SQLite**.
 
 ## Features
 
